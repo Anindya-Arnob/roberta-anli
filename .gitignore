@@ -1,0 +1,31 @@
+# Model weights — too large for GitHub (use HuggingFace Hub or Git LFS instead)
+*.safetensors
+*.pt
+*.pth
+*.bin
+
+# Optimizer & scheduler state
+optimizer.pt
+scheduler.pt
+rng_state.pth
+training_args.bin
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Data & outputs
+*.csv
+*.parquet
+*.arrow
+
+# Environment
+.env
+.venv/
+venv/
+
+# Editors
+.vscode/
+*.swp

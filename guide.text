@@ -1,0 +1,73 @@
+====================================================
+  HOW TO RUN THE ROBERTA-ANLI V10 MODEL (No Training)
+====================================================
+
+REQUIREMENTS
+------------
+- Python 3.9 or higher
+- Jupyter Notebook or VS Code with Jupyter extension
+- A GPU is optional but recommended (it will fall back to CPU)
+
+STEP 1 — Install dependencies
+------------------------------
+Open a terminal/command prompt and run:
+
+  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+  pip install transformers==4.47.1 datasets accelerate scikit-learn notebook
+
+(If you don't have a GPU, replace the first line with just: pip install torch)
+
+STEP 2 — Extract the zip
+-------------------------
+Extract the V10.zip anywhere you like.
+You should see a folder called V10 with:
+  - roberta_anli_v10.ipynb   ← the notebook
+  - roberta-anli-final/      ← the trained model (already inside)
+
+STEP 3 — Open the notebook
+----------------------------
+In your terminal, go into the V10 folder:
+
+  cd path\to\V10
+
+Then launch Jupyter:
+
+  jupyter notebook
+
+Open roberta_anli_v10.ipynb in the browser that opens.
+
+STEP 4 — Run ONLY these cells (skip training)
+----------------------------------------------
+You need to run a few setup cells at the top, then jump to the
+inference section at the bottom. Here's what to do:
+
+  1. Run the very FIRST cell (checks Python/CUDA versions)
+  2. Run the pip install cell (installs packages — look for the cell
+     that starts with: !pip install ... transformers==4.47.1 ...)
+  3. Run the imports cell (the big cell with all the "import torch",
+     "from transformers import ..." lines)
+  4. SKIP everything in the middle (all the training stages)
+  5. Scroll to near the BOTTOM of the notebook.
+     Find the cell that defines:  def predict_nli(premise, hypothesis):
+     Run that cell.
+  6. Then run the cells right after it that call predict_nli(...)
+     with example sentences — those are the demo predictions.
+
+STEP 5 — Try it yourself
+--------------------------
+After running the predict_nli function cell, you can add a new cell
+anywhere and type:
+
+  predict_nli("Your premise sentence here.", "Your hypothesis here.")
+
+It will print: Entailment, Neutral, or Contradiction with a confidence %.
+
+NOTES
+------
+- The trained model weights are already in the roberta-anli-final/ folder
+  inside the zip. No downloading needed.
+- Do NOT run the training cells (Stage 1, 2, 3, 4) — they take hours
+  and will overwrite the saved model.
+- If you see a warning "You should probably TRAIN this model..." just
+  ignore it — it's a false alarm from a helper check cell.
+====================================================
