@@ -875,7 +875,7 @@ roberta-anli/
 | RoBERTa-large | 90.8% | 90.2% | 94.0% | 86.6% |
 | **Ours (Stage 1)** | **91.83%** | — | — | — |
 
-> Our Stage 1 surpasses the published RoBERTa-base number by ~4 points, because we train on SNLI and FEVER-NLI jointly with MNLI — each dataset covers different aspects of NLI reasoning.
+> Stage 1 trains jointly on SNLI, MNLI, and FEVER-NLI rather than MNLI alone — each dataset covers different NLI sub-skills (caption entailment, genre-diverse inference, fact-verification), which accounts for the higher combined dev accuracy.
 
 ### Adversarial NLI Performance (Test Accuracy)
 
@@ -889,7 +889,81 @@ roberta-anli/
 | XLNet-large | 67.0% | 50.7% | 48.5% | 55.4% |
 | **Ours — RoBERTa-base + Curriculum** | **~65%** | **~48%** | **~42%** | **~51.7%** |
 
-> **Our RoBERTa-base matches vanilla RoBERTa-large on R1 and R2, and exceeds BERT-large by more than 30 points across all rounds.**
+#### Reading the Numbers — Why Each Model Scores What It Does
+
+This table is not just a leaderboard. Every number tells a story about *what ANLI actually tests* and *how each model's training choices determine its failure modes*.
+
+---
+
+**Random baseline — 33.3% across all rounds**
+
+Three balanced classes → uniform random prediction = exactly 1/3. This is the absolute floor. Any model that cannot beat this has learned nothing useful about natural language. Notice that BERT-base at 28.3% on R1 actually *falls below* the random baseline — it is not merely failing to learn, it is **confidently wrong** more often than chance.
+
+---
+
+**BERT-base — 28.3% | 31.2% | 31.2%**
+
+The most striking number in the table is 28.3% on R1 — **below random**.
+
+R1 was collected using a *BERT ensemble* as the adversary model. Every example in R1 was specifically selected because it fooled BERT. This means the test set is constructed to be a direct adversary against BERT's exact failure modes. When BERT encounters these examples, it doesn't just guess randomly — it makes *systematic errors* with high confidence in the wrong direction.
+
+R2 and R3 (31.2% each) barely beat random. BERT has *some* NLI ability from fine-tuning, but its shallow shortcuts — NSP surface correlations, static mask memorisation, annotation artifact biases — collapse immediately when those shortcuts are closed off.
+
+The key lesson: BERT learns to pass NLI exams, not to reason about language. ANLI removes the exam shortcuts.
+
+---
+
+**BERT-large — 34.2% | 31.1% | 31.2%**
+
+BERT-large is 3× the parameters of BERT-base (~340M vs ~110M), yet the ANLI scores are nearly identical — R1 is only 6 points higher, R2 and R3 are statistically the same.
+
+This is a critical finding: **scale does not fix a broken training objective**. BERT-large has more capacity to memorise annotation artifacts, but the artifacts it memorises are just as wrong under adversarial conditions. Doubling the depth of a model that learned the wrong inductive biases only deepens those biases — it does not correct them.
+
+---
+
+**RoBERTa-base (vanilla) — 44.2% | 29.5% | 30.4%**
+
+The R1 score (44.2%) is dramatically higher than BERT's (28.3%) — a 16-point jump. This confirms that RoBERTa's training improvements (dynamic masking, no NSP, 10× more data, byte-BPE) produce genuinely stronger NLI representations that transfer better to adversarial examples.
+
+But look at R2: **29.5% — below random again**.
+
+R2 was collected using *RoBERTa-base* as the adversary. Every example in R2 is one that fooled RoBERTa-base during collection. Vanilla RoBERTa-base, fine-tuned only on standard NLI, walks directly into every trap that was built for it. The model is again confidently wrong — not randomly wrong.
+
+R3 (30.4%) is near-random for the same reason: R3 used stronger adversaries but the examples still reflect failure modes that the base-size RoBERTa architecture shares.
+
+This pattern — each model performing worst on the round that targeted it — is the defining feature of adversarial benchmarks.
+
+---
+
+**RoBERTa-large (vanilla) — 53.7% | 48.9% | 40.0%**
+
+Consistent improvement across all rounds. R1 (53.7%) is high because RoBERTa-large was not the adversary model for R1 — it has not been "targeted" by those examples.
+
+R2 (48.9%) is notably strong: the adversary for R2 was RoBERTa-*base*, not large. RoBERTa-large has different internal representations than its smaller sibling — it does not share all the same failure modes, so it handles R2 examples better than the model they were designed to fool.
+
+R3 (40.0%) shows the characteristic dip: R3 was collected adversarially against *RoBERTa-large itself* (along with XLNet). The model's score falls on exactly the round it was used to construct.
+
+This confirms the adversarial selection effect across all model sizes: **every model is weakest on the round it helped build**.
+
+---
+
+**XLNet-large — 67.0% | 50.7% | 48.5%**
+
+The strongest baseline. XLNet uses a fundamentally different pretraining objective — *permutation language modelling* (autoregressive over all possible orderings of a sequence) — compared to BERT's masked language modelling.
+
+Crucially, **XLNet was not used as an adversary model in any round**. Rounds 1–3 all used BERT or RoBERTa variants to collect adversarial examples. The failure modes of XLNet's permutation-based architecture are simply *different* from those of the masked-language-model family — so the adversarially-collected examples do not systematically exploit XLNet's specific weaknesses. This is a cross-architecture advantage, not a pure performance advantage.
+
+If R4 were collected adversarially against XLNet, we would expect to see the same collapse below random that BERT-base shows on R1.
+
+---
+
+**Ours — RoBERTa-base + Curriculum — ~65% | ~48% | ~42%**
+
+The curriculum approach addresses the core problem the table reveals: vanilla fine-tuning exposes a model to a round's adversarial distribution only once, at full strength. The model either adapts or fails.
+
+The curriculum stages the difficulty: Stage 1 builds a strong NLI foundation before any adversarial examples are seen; each subsequent stage warm-starts from the previous best checkpoint. This means by the time the model encounters R2 examples (which vanilla RoBERTa-base falls below random on), it has already been hardened through R1 exposure. By R3, it has been hardened through both R1 and R2.
+
+The curriculum does not eliminate the adversarial difficulty — the R3 score (42%) still reflects genuine hardness — but it reduces the "cold start" collapse that causes vanilla models to fall below random.
 
 ### Why BERT Collapses on ANLI
 
@@ -945,9 +1019,7 @@ The curriculum multiplier is largest for RoBERTa-base. Its stronger pretrained r
 
 **3. Stage 3 (R1+R2) is the sweet spot for this model capacity.** Training on all three rounds (Stage 4) underperforms Stage 3 by 2.6 points. R3 was collected adversarially against RoBERTa-large — examples specifically calibrated to be too hard for a 125M parameter model. Adding noise that exceeds the model's capacity hurts more than it helps.
 
-**4. Our base model beats vanilla large models through training strategy alone.** ~65% on R1 and ~48% on R2 matches or exceeds vanilla RoBERTa-large's published numbers, using a model 3× smaller. This demonstrates that *how* you train matters more than *how large* your model is — within the same architecture family.
-
-**5. The BERT-RoBERTa gap widens dramatically under adversarial pressure.** MNLI gap: ~3 points. ANLI average gap: ~20 points. This divergence confirms that ANLI specifically targets the weaknesses introduced by BERT's training choices, and that RoBERTa's training improvements translate directly into adversarial robustness.
+**4. The BERT-RoBERTa gap widens dramatically under adversarial pressure.** MNLI gap: ~3 points. ANLI average gap: ~20 points. This divergence confirms that ANLI specifically targets the weaknesses introduced by BERT's training choices, and that RoBERTa's training improvements translate directly into adversarial robustness.
 
 ---
 
