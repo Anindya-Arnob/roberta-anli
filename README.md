@@ -34,7 +34,7 @@
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 
 - [ What Is NLI?](#-what-is-nli)
 - [ What Is Adversarial NLI?](#️-what-is-adversarial-nli)
@@ -57,7 +57,7 @@
 
 ---
 
-## 🧠 What Is NLI?
+##  What Is NLI?
 
 **Natural Language Inference (NLI)** is the task of determining the logical relationship between two sentences. It is one of the most comprehensive tests of language understanding because it requires the model to simultaneously handle:
 
@@ -562,7 +562,7 @@ missing, unexpected = model.load_state_dict(hf_state, strict=True)
 
 ---
 
-## 🎓 Why Curriculum Learning?
+##  Why Curriculum Learning?
 
 ```
 EASY ──────────────────────────────────────────────────────── HARD
@@ -584,7 +584,7 @@ Each stage **warm-starts** from the best checkpoint of the previous stage — pr
 
 ---
 
-## 📚 Dataset Overview
+##  Dataset Overview
 
 ### Stage 1
 
@@ -609,7 +609,7 @@ Each stage **warm-starts** from the best checkpoint of the previous stage — pr
 
 ---
 
-## 🏋️ Training Pipeline
+##  Training Pipeline
 
 ### Stage 1 — Base NLI Pre-training
 
@@ -687,7 +687,7 @@ Each stage **warm-starts** from the best checkpoint of the previous stage — pr
 
 ---
 
-## 📊 Results
+##  Results
 
 ### Dev Accuracy by Stage
 
@@ -735,7 +735,7 @@ Each stage **warm-starts** from the best checkpoint of the previous stage — pr
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Installation
 
@@ -770,7 +770,7 @@ Cell 17  →  predict_nli() definition + demo predictions
 
 ---
 
-## 💡 Inference Examples
+##  Inference Examples
 
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -809,15 +809,15 @@ predict_nli(
 
 ---
 
-## 🗂️ Repository Structure
+##  Repository Structure
 
 ```
 roberta-anli/
 │
-├── 📓 roberta_anli_v10.ipynb         ← Full 46-cell notebook (architecture + training + eval)
-├── 📋 guide.text                     ← Plain-English quick-start guide
+├──  roberta_anli_v10.ipynb         ← Full 46-cell notebook (architecture + training + eval)
+├──  guide.text                     ← Plain-English quick-start guide
 │
-├── 🤖 roberta-anli-final/            ← Exported model + tokenizer
+├──  roberta-anli-final/            ← Exported model + tokenizer
 │   ├── config.json                   ← Architecture config (768d, 12L, 12H)
 │   ├── model.safetensors             ← [excluded — too large for GitHub]
 │   ├── tokenizer_config.json
@@ -825,10 +825,10 @@ roberta-anli/
 │   ├── merges.txt                    ← Byte-pair merge rules
 │   └── special_tokens_map.json
 │
-├── 📊 curriculum_results_v10.png     ← Per-round accuracy across all stages
-├── 📊 analysis_ANLI_R1.png           ← R1 confidence + class breakdown
-├── 📊 analysis_ANLI_R2.png           ← R2 confidence + class breakdown
-├── 📊 analysis_ANLI_R3.png           ← R3 confidence + class breakdown
+├──  curriculum_results_v10.png     ← Per-round accuracy across all stages
+├──  analysis_ANLI_R1.png           ← R1 confidence + class breakdown
+├──  analysis_ANLI_R2.png           ← R2 confidence + class breakdown
+├──  analysis_ANLI_R3.png           ← R3 confidence + class breakdown
 │
 ├── stage1_checkpoint/                ← Stage 1 best — config + trainer_state.json
 ├── stage1_snli_checkpoint/           ← Stage 1 (SNLI-init) config
@@ -839,7 +839,7 @@ roberta-anli/
 
 ---
 
-## ⚔️ BERT vs RoBERTa — Head-to-Head
+##  BERT vs RoBERTa — Head-to-Head
 
 ### Pretraining Differences
 
@@ -1011,7 +1011,7 @@ The curriculum multiplier is largest for RoBERTa-base. Its stronger pretrained r
 
 ---
 
-## 🔍 Key Findings
+##  Key Findings
 
 **1. Building from scratch beats using a black box (for learning).** Implementing every class, verifying numerically, and loading weights with `strict=True` forces a depth of understanding that no tutorial can replace. Every architectural decision — why `padding_idx=1`, why `std=0.02`, why `Tanh` in the pooler — becomes explicit rather than assumed.
 
@@ -1023,7 +1023,7 @@ The curriculum multiplier is largest for RoBERTa-base. Its stronger pretrained r
 
 ---
 
-## 📖 References
+##  References
 
 ```bibtex
 @article{liu2019roberta,
