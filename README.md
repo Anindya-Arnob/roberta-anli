@@ -4,11 +4,11 @@
 
 <div align="center">
 
-<img src="https://img.shields.io/badge/🤖%20Model-RoBERTa--base-8A2BE2?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/🔥%20Framework-PyTorch%202.x-EE4C2C?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/🤗%20Transformers-4.47.1-FFD21E?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/⚡%20Hardware-XPU%20%7C%20CUDA%20%7C%20CPU-00b4d8?style=for-the-badge"/>
-<img src="https://img.shields.io/badge/📄%20License-MIT-22c55e?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/%20Model-RoBERTa--base-8A2BE2?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/%20Framework-PyTorch%202.x-EE4C2C?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/%20Transformers-4.47.1-FFD21E?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/%20Hardware-XPU%20%7C%20CUDA%20%7C%20CPU-00b4d8?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/%20License-MIT-22c55e?style=for-the-badge"/>
 
 <br/><br/>
 
