@@ -36,24 +36,24 @@
 
 ## 📋 Table of Contents
 
-- [🧠 What Is NLI?](#-what-is-nli)
-- [⚔️ What Is Adversarial NLI?](#️-what-is-adversarial-nli)
-- [🔧 Custom Transformer — Built from Scratch](#-custom-transformer--built-from-scratch)
+- [ What Is NLI?](#-what-is-nli)
+- [ What Is Adversarial NLI?](#️-what-is-adversarial-nli)
+- [ Custom Transformer — Built from Scratch](#-custom-transformer--built-from-scratch)
   - [Why Build from Scratch?](#why-build-from-scratch)
   - [Every Class, Explained](#every-class-explained)
   - [The Mathematics](#the-mathematics)
   - [Numerical Verification](#numerical-verification)
   - [Weight Loading](#weight-loading)
-- [🎓 Why Curriculum Learning?](#-why-curriculum-learning)
-- [📚 Dataset Overview](#-dataset-overview)
-- [🏋️ Training Pipeline](#️-training-pipeline)
-- [📊 Results](#-results)
-- [🚀 Quick Start](#-quick-start)
-- [💡 Inference Examples](#-inference-examples)
-- [🗂️ Repository Structure](#️-repository-structure)
-- [⚔️ BERT vs RoBERTa — Head-to-Head](#️-bert-vs-roberta--head-to-head)
-- [🔍 Key Findings](#-key-findings)
-- [📖 References](#-references)
+- [ Why Curriculum Learning?](#-why-curriculum-learning)
+- [ Dataset Overview](#-dataset-overview)
+- [ Training Pipeline](#️-training-pipeline)
+- [ Results](#-results)
+- [ Quick Start](#-quick-start)
+- [ Inference Examples](#-inference-examples)
+- [ Repository Structure](#️-repository-structure)
+- [ BERT vs RoBERTa — Head-to-Head](#️-bert-vs-roberta--head-to-head)
+- [ Key Findings](#-key-findings)
+- [ References](#-references)
 
 ---
 
