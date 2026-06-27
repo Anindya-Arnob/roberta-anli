@@ -90,7 +90,7 @@
 
 ---
 
-## ⚔️ What Is Adversarial NLI?
+##  What Is Adversarial NLI?
 
 **Standard NLI benchmarks are broken.** SNLI and MNLI are riddled with annotation artifacts — statistical shortcuts that models exploit instead of learning real reasoning:
 
@@ -138,7 +138,7 @@ Humans understand "it" refers to "trophy" — which is bigger, not the suitcase.
 
 ---
 
-## 🔧 Custom Transformer — Built from Scratch
+##  Custom Transformer — Built from Scratch
 
 > **This is the centrepiece of the project.** Rather than calling `AutoModel.from_pretrained(...)` as a black box, the entire RoBERTa architecture was implemented in raw PyTorch — every matrix multiplication, every residual connection, every layer norm, every attention head. The implementation was then numerically verified against HuggingFace's reference, and the pretrained `roberta-base` weights were loaded with zero missing keys.
 
